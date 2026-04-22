@@ -34,7 +34,7 @@ final class TasksViewModel: ObservableObject {
     func refresh() {
         Task { await loadData() }
     }
-
+    @MainActor
     func loadData() async {
         do {
             tasks = try await taskService.fetchTasks()

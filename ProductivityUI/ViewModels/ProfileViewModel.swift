@@ -14,7 +14,7 @@ final class ProfileViewModel: ObservableObject {
     func refresh() {
         Task { await loadData() }
     }
-
+    @MainActor
     func loadData() async {
         do {
             profile = try await profileService.fetchProfile()

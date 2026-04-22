@@ -63,7 +63,7 @@ struct TasksScreen: View {
         .refreshable {
             viewModel.refresh()
         }
-        .onChange(of: externalEditingTask) { _, newValue in
+        .onChange(of: externalEditingTask) { newValue in
             guard let newValue else { return }
             editingTask = newValue
             externalEditingTask = nil

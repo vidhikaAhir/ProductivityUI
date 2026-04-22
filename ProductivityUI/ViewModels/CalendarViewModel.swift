@@ -72,7 +72,7 @@ final class CalendarViewModel: ObservableObject {
     func refresh() {
         Task { await loadData() }
     }
-
+    @MainActor
     func loadData() async {
         do {
             async let fetchedTasks = taskService.fetchTasks()

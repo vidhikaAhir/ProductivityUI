@@ -54,7 +54,7 @@ struct NotesScreen: View {
         .refreshable {
             viewModel.refresh()
         }
-        .onChange(of: externalEditingNote) { _, newValue in
+        .onChange(of: externalEditingNote) { newValue in
             guard let newValue else { return }
             editingNote = newValue
             externalEditingNote = nil

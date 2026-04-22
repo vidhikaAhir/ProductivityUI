@@ -14,7 +14,7 @@ final class NotesViewModel: ObservableObject {
     func refresh() {
         Task { await loadData() }
     }
-
+    @MainActor
     func loadData() async {
         do {
             notes = try await noteService.fetchNotes()
