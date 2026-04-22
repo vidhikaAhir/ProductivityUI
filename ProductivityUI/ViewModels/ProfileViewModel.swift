@@ -1,8 +1,10 @@
 import Foundation
 import Combine
 
+@MainActor
 final class ProfileViewModel: ObservableObject {
     @Published private(set) var profile: UserRow?
+    @Published private(set) var isLoading = false
 
     private let profileService: ProfileServiceProtocol
 
@@ -16,6 +18,8 @@ final class ProfileViewModel: ObservableObject {
     }
     @MainActor
     func loadData() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             profile = try await profileService.fetchProfile()
         } catch {
@@ -25,6 +29,8 @@ final class ProfileViewModel: ObservableObject {
 
     func updateProfile(_ profile: UserRow) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await profileService.updateProfile(profile)
                 await loadData()

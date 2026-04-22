@@ -1,8 +1,10 @@
 import Foundation
 import Combine
 
+@MainActor
 final class NotesViewModel: ObservableObject {
     @Published private(set) var notes: [NoteItem] = []
+    @Published private(set) var isLoading = false
 
     private let noteService: NoteServiceProtocol
 
@@ -16,6 +18,8 @@ final class NotesViewModel: ObservableObject {
     }
     @MainActor
     func loadData() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             notes = try await noteService.fetchNotes()
         } catch {
@@ -25,6 +29,8 @@ final class NotesViewModel: ObservableObject {
 
     func addNote(title: String, body: String) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await noteService.addNote(NoteItem(title: title, body: body))
                 await loadData()
@@ -40,6 +46,8 @@ final class NotesViewModel: ObservableObject {
         updated.body = body
         updated.updatedAt = Date()
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await noteService.updateNote(updated)
                 await loadData()
@@ -51,6 +59,8 @@ final class NotesViewModel: ObservableObject {
 
     func deleteNote(_ note: NoteItem) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await noteService.deleteNote(id: note.id)
                 await loadData()

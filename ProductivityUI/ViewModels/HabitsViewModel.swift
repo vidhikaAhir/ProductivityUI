@@ -1,14 +1,27 @@
 import Foundation
 import Combine
 
+@MainActor
 final class HabitsViewModel: ObservableObject {
     @Published private(set) var habits: [HabitItem] = []
+    @Published private(set) var isLoading = false
 
     private let habitService: HabitServiceProtocol
+    private let notificationService: NotificationServiceProtocol
+    private let notificationManager: NotificationManager
+    private let onNotificationChanged: (() -> Void)?
     private let calendar = Calendar.current
 
-    init(habitService: HabitServiceProtocol) {
+    init(
+        habitService: HabitServiceProtocol,
+        notificationService: NotificationServiceProtocol,
+        notificationManager: NotificationManager = .shared,
+        onNotificationChanged: (() -> Void)? = nil
+    ) {
         self.habitService = habitService
+        self.notificationService = notificationService
+        self.notificationManager = notificationManager
+        self.onNotificationChanged = onNotificationChanged
         Task { await loadData() }
     }
 
@@ -17,6 +30,8 @@ final class HabitsViewModel: ObservableObject {
     }
 
     func loadData() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             habits = try await habitService.fetchHabits()
         } catch {
@@ -24,10 +39,22 @@ final class HabitsViewModel: ObservableObject {
         }
     }
 
-    func addHabit(title: String, detail: String) {
+    func addHabit(title: String, detail: String, expTime: Date) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
-                try await habitService.addHabit(HabitItem(title: title, detail: detail))
+                let expTimeString = SupabaseDateTransform.habitTimeString(from: expTime) ?? ""
+                try await habitService.addHabit(
+                    HabitItem(title: title, detail: detail, expTime: expTimeString)
+                )
+                notificationManager.scheduleHabitReminder(
+                    title: title,
+                    expTime: expTime,
+                    notificationService: notificationService
+                ) { [weak self] in
+                    self?.onNotificationChanged?()
+                }
                 await loadData()
             } catch {
                 print("Failed to add habit: \(error)")
@@ -37,6 +64,8 @@ final class HabitsViewModel: ObservableObject {
 
     func deleteHabit(_ habit: HabitItem) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await habitService.deleteHabit(id: habit.id)
                 await loadData()
@@ -50,6 +79,8 @@ final class HabitsViewModel: ObservableObject {
         let today = Date()
 
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 if habit.isCompleted(on: today) {
                     try await habitService.deleteHabitLog(habitId: habit.id, on: today)

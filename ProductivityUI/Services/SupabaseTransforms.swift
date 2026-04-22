@@ -25,6 +25,15 @@ enum SupabaseDateTransform {
         return formatter
     }()
 
+    static let habitTimeOnlyFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+
     static func parseDate(_ raw: String?) -> Date? {
         guard let raw else { return nil }
         if let date = isoFormatter.date(from: raw) {
@@ -34,6 +43,9 @@ enum SupabaseDateTransform {
             return date
         }
         if let date = timeOnlyFormatter.date(from: raw) {
+            return date
+        }
+        if let date = habitTimeOnlyFormatter.date(from: raw) {
             return date
         }
         return nil
@@ -51,6 +63,16 @@ enum SupabaseDateTransform {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "HH:mm:ss"
+        return formatter.string(from: date)
+    }
+
+    static func habitTimeString(from date: Date?) -> String? {
+        guard let date else { return nil }
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "HH:mm"
         return formatter.string(from: date)
     }
 }

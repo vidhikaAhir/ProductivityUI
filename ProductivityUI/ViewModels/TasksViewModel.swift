@@ -1,8 +1,10 @@
 import Foundation
 import Combine
 
+@MainActor
 final class TasksViewModel: ObservableObject {
     @Published private(set) var tasks: [TaskItem] = []
+    @Published private(set) var isLoading = false
     @Published var selectedFilter: Filter = .inProgress
 
     enum Filter: String, CaseIterable, Identifiable {
@@ -36,6 +38,8 @@ final class TasksViewModel: ObservableObject {
     }
     @MainActor
     func loadData() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             tasks = try await taskService.fetchTasks()
         } catch {
@@ -46,6 +50,8 @@ final class TasksViewModel: ObservableObject {
     func addTask(title: String, detail: String, dueDate: Date?, hasReminder: Bool, priority: TaskPriority) {
         let task = TaskItem(title: title, detail: detail, dueDate: dueDate, hasReminder: hasReminder, priority: priority)
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await taskService.addTask(task)
                 await loadData()
@@ -57,6 +63,8 @@ final class TasksViewModel: ObservableObject {
 
     func updateTask(_ task: TaskItem) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await taskService.updateTask(task)
                 await loadData()
@@ -68,6 +76,8 @@ final class TasksViewModel: ObservableObject {
 
     func deleteTask(_ task: TaskItem) {
         Task {
+            isLoading = true
+            defer { isLoading = false }
             do {
                 try await taskService.deleteTask(id: task.id)
                 await loadData()

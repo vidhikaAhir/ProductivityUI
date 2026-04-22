@@ -15,6 +15,9 @@ struct ProductivityUIApp: App {
         WindowGroup {
             RootTabView()
                 .environmentObject(appContainer)
+                .task {
+                    NotificationManager.shared.requestPermission()
+                }
         }
     }
 }

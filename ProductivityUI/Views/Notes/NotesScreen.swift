@@ -5,11 +5,9 @@ struct NotesScreen: View {
     @State private var showCreate = false
     @State private var editingNote: NoteItem?
     @State private var searchText = ""
-    @Binding var externalEditingNote: NoteItem?
 
-    init(viewModel: NotesViewModel, externalEditingNote: Binding<NoteItem?>) {
+    init(viewModel: NotesViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        _externalEditingNote = externalEditingNote
     }
 
     var body: some View {
@@ -50,6 +48,11 @@ struct NotesScreen: View {
             }
             .navigationTitle("Notes")
             .searchable(text: $searchText, prompt: "Search notes")
+            .overlay {
+                if viewModel.isLoading {
+                    LoadingOverlayView("Updating notes...")
+                }
+            }
         }
         .refreshable {
             viewModel.refresh()

@@ -1,12 +1,14 @@
 import Foundation
 import Combine
 
+@MainActor
 final class CalendarViewModel: ObservableObject {
     @Published var selectedDate = Date()
     @Published private(set) var tasks: [TaskItem] = []
     @Published private(set) var notes: [NoteItem] = []
     @Published private(set) var habits: [HabitItem] = []
     @Published private(set) var notifications: [AppNotificationItem] = []
+    @Published private(set) var isLoading = false
 
     private let taskService: TaskServiceProtocol
     private let noteService: NoteServiceProtocol
@@ -74,6 +76,8 @@ final class CalendarViewModel: ObservableObject {
     }
     @MainActor
     func loadData() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             async let fetchedTasks = taskService.fetchTasks()
             async let fetchedNotes = noteService.fetchNotes()

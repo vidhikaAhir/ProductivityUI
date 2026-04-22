@@ -3,54 +3,75 @@ import SwiftUI
 struct RootTabView: View {
     @EnvironmentObject private var appContainer: AppContainer
     @StateObject private var onboardingViewModel = OnboardingViewModel()
+    @StateObject private var calendarViewModel: CalendarViewModel
+    @StateObject private var tasksViewModel: TasksViewModel
+    @StateObject private var notesViewModel: NotesViewModel
+    @StateObject private var habitsViewModel: HabitsViewModel
+    @StateObject private var profileViewModel: ProfileViewModel
     @State private var selectedTab: AppTab = .calendar
     @State private var spotlightFrames: [SpotlightFrameTarget: CGRect] = [:]
-    @State private var pendingTaskEdit: TaskItem?
-    @State private var pendingNoteEdit: NoteItem?
+
+    init() {
+        let taskService = SupabaseTaskService()
+        let noteService = SupabaseNoteService()
+        let habitService = SupabaseHabitService()
+        let profileService = SupabaseProfileService()
+        let notificationService = InMemoryNotificationService()
+        let calendarVM = CalendarViewModel(
+            taskService: taskService,
+            noteService: noteService,
+            habitService: habitService,
+            notificationService: notificationService
+        )
+        let tasksVM = TasksViewModel(taskService: taskService)
+        let notesVM = NotesViewModel(noteService: noteService)
+        let habitsVM = HabitsViewModel(
+            habitService: habitService,
+            notificationService: notificationService,
+            onNotificationChanged: {
+                Task { @MainActor in
+                    calendarVM.refresh()
+                }
+            }
+        )
+        let profileVM = ProfileViewModel(profileService: profileService)
+
+        _calendarViewModel = StateObject(wrappedValue: calendarVM)
+        _tasksViewModel = StateObject(wrappedValue: tasksVM)
+        _notesViewModel = StateObject(wrappedValue: notesVM)
+        _habitsViewModel = StateObject(wrappedValue: habitsVM)
+        _profileViewModel = StateObject(wrappedValue: profileVM)
+    }
 
     var body: some View {
         GeometryReader { proxy in
             ZStack {
                 TabView(selection: $selectedTab) {
-                    CalendarScreen(
-                        viewModel: CalendarViewModel(
-                            taskService: appContainer.taskService,
-                            noteService: appContainer.noteService,
-                            habitService: appContainer.habitService,
-                            notificationService: appContainer.notificationService
-                        ),
-                        onSelectItem: handleCalendarSelection
-                    )
-                    .tabItem {
-                        Label("Calendar", systemImage: "calendar")
-                    }
-                    .tag(AppTab.calendar)
+                    CalendarScreen(viewModel: calendarViewModel, taskViewModel: tasksViewModel, noteViewModel: notesViewModel)
+                        .tabItem {
+                            Label("Calendar", systemImage: "calendar")
+                        }
+                        .tag(AppTab.calendar)
 
-                    TasksScreen(
-                        viewModel: TasksViewModel(taskService: appContainer.taskService),
-                        externalEditingTask: $pendingTaskEdit
-                    )
+                    TasksScreen(viewModel: tasksViewModel)
                         .tabItem {
                             Label("Tasks", systemImage: "checklist")
                         }
                         .tag(AppTab.tasks)
 
-                    NotesScreen(
-                        viewModel: NotesViewModel(noteService: appContainer.noteService),
-                        externalEditingNote: $pendingNoteEdit
-                    )
+                    NotesScreen(viewModel: notesViewModel)
                         .tabItem {
                             Label("Notes", systemImage: "square.and.pencil")
                         }
                         .tag(AppTab.notes)
 
-                    HabitsScreen(viewModel: HabitsViewModel(habitService: appContainer.habitService))
+                    HabitsScreen(viewModel: habitsViewModel)
                         .tabItem {
                             Label("Habits", systemImage: "leaf")
                         }
                         .tag(AppTab.habits)
 
-                    ProfileScreen(viewModel: ProfileViewModel(profileService: appContainer.profileService))
+                    ProfileScreen(viewModel: profileViewModel)
                         .tabItem {
                             Label("Profile", systemImage: "person")
                         }
@@ -96,19 +117,6 @@ struct RootTabView: View {
     private func syncTabWithCurrentStep() {
         guard let step = onboardingViewModel.currentStep else { return }
         selectedTab = onboardingViewModel.preferredTab(for: step)
-    }
-
-    private func handleCalendarSelection(_ item: CalendarFeedItem) {
-        switch item.type {
-        case let .task(task), let .reminder(task):
-            pendingTaskEdit = task
-            selectedTab = .tasks
-        case let .note(note):
-            pendingNoteEdit = note
-            selectedTab = .notes
-        case .habit:
-            selectedTab = .habits
-        }
     }
 
     private func spotlightRect(for target: OnboardingTarget, in proxy: GeometryProxy) -> CGRect {
