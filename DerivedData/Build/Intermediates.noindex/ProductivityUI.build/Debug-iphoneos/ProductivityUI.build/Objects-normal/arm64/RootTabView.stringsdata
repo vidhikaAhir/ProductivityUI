@@ -1,0 +1,48 @@
+{
+  "source": "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/App/RootTabView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Calendar",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tasks",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "Notes",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "Habits",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "Profile",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 44
+        }
+      }
+    ]
+  },
+  "version": 1
+}

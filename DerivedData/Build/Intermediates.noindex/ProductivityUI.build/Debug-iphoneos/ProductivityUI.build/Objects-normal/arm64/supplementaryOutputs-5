@@ -1,0 +1,30 @@
+{
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Habits/HabitEditorSheet.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitEditorSheet.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitEditorSheet.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitEditorSheet.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitEditorSheet.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitEditorSheet.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Habits/HabitRow.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitRow.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitRow.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitRow.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitRow.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitRow.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Habits/HabitsScreen.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsScreen.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsScreen.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsScreen.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsScreen.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsScreen.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Notes/NoteCard.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NoteCard.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NoteCard.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NoteCard.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NoteCard.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NoteCard.swiftdeps"
+  }
+}

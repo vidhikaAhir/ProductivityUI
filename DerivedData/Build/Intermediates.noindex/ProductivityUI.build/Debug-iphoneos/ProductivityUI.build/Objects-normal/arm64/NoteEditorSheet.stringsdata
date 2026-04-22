@@ -1,0 +1,32 @@
+{
+  "source": "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Notes/NoteEditorSheet.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Title",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 19
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "Save",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 33
+        }
+      }
+    ]
+  },
+  "version": 1
+}

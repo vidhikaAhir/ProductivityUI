@@ -1,0 +1,16 @@
+{
+  "source": "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Habits/HabitRow.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%@ • %lld day streak",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 18
+        }
+      }
+    ]
+  },
+  "version": 1
+}

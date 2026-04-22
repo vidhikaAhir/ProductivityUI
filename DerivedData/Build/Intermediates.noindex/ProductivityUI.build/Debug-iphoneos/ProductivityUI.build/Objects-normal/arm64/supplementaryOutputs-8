@@ -1,0 +1,23 @@
+{
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/ContentView.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ContentView.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ContentView.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/ProductivityUIApp.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ProductivityUIApp.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ProductivityUIApp.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ProductivityUIApp.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ProductivityUIApp.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/ProductivityUIApp.swiftdeps"
+  }
+}

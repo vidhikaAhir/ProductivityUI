@@ -1,0 +1,30 @@
+{
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Services/TaskService.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/TaskService.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/TaskService.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/TaskService.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/TaskService.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/TaskService.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/ViewModels/CalendarViewModel.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/ViewModels/HabitsViewModel.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsViewModel.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsViewModel.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsViewModel.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsViewModel.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/HabitsViewModel.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/ViewModels/NotesViewModel.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NotesViewModel.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NotesViewModel.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NotesViewModel.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NotesViewModel.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/NotesViewModel.swiftdeps"
+  }
+}

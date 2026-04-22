@@ -1,0 +1,23 @@
+{
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/ViewModels/CalendarViewModel.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarViewModel.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Calendar/CalendarAgendaRow.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarAgendaRow.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarAgendaRow.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarAgendaRow.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarAgendaRow.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarAgendaRow.swiftdeps"
+  },
+  "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Calendar/CalendarDayCell.swift" : {
+    "const-values" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarDayCell.swiftconstvalues",
+    "dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarDayCell.d",
+    "diagnostics" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarDayCell.dia",
+    "object" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarDayCell.o",
+    "swift-dependencies" : "/Users/neo/Desktop/untitled folder/ProductivityUI/DerivedData/Build/Intermediates.noindex/ProductivityUI.build/Debug-iphoneos/ProductivityUI.build/Objects-normal/arm64/CalendarDayCell.swiftdeps"
+  }
+}

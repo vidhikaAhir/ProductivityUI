@@ -1,0 +1,32 @@
+{
+  "source": "/Users/neo/Desktop/untitled folder/ProductivityUI/ProductivityUI/Views/Calendar/CalendarScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Calendar",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "Today's Schedule",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 53
+        }
+      }
+    ]
+  },
+  "version": 1
+}
