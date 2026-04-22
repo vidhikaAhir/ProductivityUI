@@ -9,7 +9,7 @@ import Foundation
 final class HabitsRow {
     static let shared = HabitsRow()
     private init() {}
-    func addHabit(id:String,user_id:String,title:String,duration:String) async throws {
+    func addHabit(id:String,user_id:String,title:String,duration:String,exp_time:String) async throws {
         do {
             try await supabaseQuery
                 .from("HABITS")
@@ -19,6 +19,7 @@ final class HabitsRow {
                         user_id: user_id,
                         title: title,
                         duration: duration,
+                        exp_time: exp_time,
                         created_at: Date()
                     )
                 )
@@ -26,6 +27,28 @@ final class HabitsRow {
 
             print("Habit inserted successfully")
         } catch {
+            if shouldFallbackWithoutExpTime(error) {
+                do {
+                    try await supabaseQuery
+                        .from("HABITS")
+                        .insert(
+                            LegacyNewHabit(
+                                id: id,
+                                user_id: user_id,
+                                title: title,
+                                duration: duration,
+                                created_at: Date()
+                            )
+                        )
+                        .execute()
+
+                    print("Habit inserted successfully without exp_time. The HABITS table likely needs a migration.")
+                    return
+                } catch {
+                    print("Legacy insert failed:", error)
+                    throw error
+                }
+            }
             print("Insert failed:", error)
             throw error
         }
@@ -80,6 +103,11 @@ final class HabitsRow {
             print("Delete failed:", error)
             throw error
         }
+    }
+
+    private func shouldFallbackWithoutExpTime(_ error: Error) -> Bool {
+        let message = String(describing: error)
+        return message.contains("PGRST204") && message.contains("exp_time") && message.contains("HABITS")
     }
 
 }

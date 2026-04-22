@@ -4,11 +4,9 @@ struct TasksScreen: View {
     @StateObject private var viewModel: TasksViewModel
     @State private var showCreate = false
     @State private var editingTask: TaskItem?
-    @Binding var externalEditingTask: TaskItem?
 
-    init(viewModel: TasksViewModel, externalEditingTask: Binding<TaskItem?>) {
+    init(viewModel: TasksViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        _externalEditingTask = externalEditingTask
     }
 
     var body: some View {
@@ -59,14 +57,14 @@ struct TasksScreen: View {
                 .spotlightFrame(target: .addButton)
             }
             .navigationTitle("Tasks")
+            .overlay {
+                if viewModel.isLoading {
+                    LoadingOverlayView("Updating tasks...")
+                }
+            }
         }
         .refreshable {
             viewModel.refresh()
-        }
-        .onChange(of: externalEditingTask) { _, newValue in
-            guard let newValue else { return }
-            editingTask = newValue
-            externalEditingTask = nil
         }
         .sheet(isPresented: $showCreate) {
             TaskEditorSheet(mode: .create) { title, detail, dueDate, reminder, priority in

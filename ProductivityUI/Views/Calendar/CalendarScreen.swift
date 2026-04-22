@@ -3,13 +3,17 @@ import SwiftUI
 struct CalendarScreen: View {
     @StateObject private var viewModel: CalendarViewModel
     @State private var showNotifications = false
-    let onSelectItem: (CalendarFeedItem) -> Void
+    @State private var editingTask: TaskItem?
+    @State private var editingNote: NoteItem?
+    let taskViewModel: TasksViewModel
+    let noteViewModel: NotesViewModel
     private let columns = Array(repeating: GridItem(.flexible()), count: 7)
     private let calendar = Calendar.current
 
-    init(viewModel: CalendarViewModel, onSelectItem: @escaping (CalendarFeedItem) -> Void) {
+    init(viewModel: CalendarViewModel, taskViewModel: TasksViewModel, noteViewModel: NotesViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        self.onSelectItem = onSelectItem
+        self.taskViewModel = taskViewModel
+        self.noteViewModel = noteViewModel
     }
 
     var body: some View {
@@ -37,7 +41,7 @@ struct CalendarScreen: View {
 
                     ForEach(viewModel.itemsForSelectedDate) { item in
                         CalendarAgendaRow(item: item) {
-                            onSelectItem(item)
+                            handleSelection(item)
                         }
                     }
                 }
@@ -69,9 +73,32 @@ struct CalendarScreen: View {
                     }
                 }
             }
+            .overlay {
+                if viewModel.isLoading || taskViewModel.isLoading || noteViewModel.isLoading {
+                    LoadingOverlayView("Updating calendar...")
+                }
+            }
         }
         .sheet(isPresented: $showNotifications) {
             CalendarNotificationsSheet(viewModel: viewModel)
+        }
+        .sheet(item: $editingTask) { task in
+            TaskEditorSheet(mode: .edit(task)) { title, detail, dueDate, reminder, priority in
+                var updated = task
+                updated.title = title
+                updated.detail = detail
+                updated.dueDate = dueDate
+                updated.hasReminder = reminder
+                updated.priority = priority
+                taskViewModel.updateTask(updated)
+                viewModel.refresh()
+            }
+        }
+        .sheet(item: $editingNote) { note in
+            NoteEditorSheet(mode: .edit(note)) { title, body in
+                noteViewModel.updateNote(note, title: title, body: body)
+                viewModel.refresh()
+            }
         }
         .onAppear {
             viewModel.refresh()
@@ -122,6 +149,17 @@ struct CalendarScreen: View {
     private func shiftMonth(by value: Int) {
         if let newDate = calendar.date(byAdding: .month, value: value, to: viewModel.selectedDate) {
             viewModel.selectedDate = newDate
+        }
+    }
+
+    private func handleSelection(_ item: CalendarFeedItem) {
+        switch item.type {
+        case let .task(task), let .reminder(task):
+            editingTask = task
+        case let .note(note):
+            editingNote = note
+        case .habit:
+            break
         }
     }
 }

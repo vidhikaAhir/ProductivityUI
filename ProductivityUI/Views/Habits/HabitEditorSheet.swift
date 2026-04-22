@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct HabitEditorSheet: View {
-    let onSave: (String, String) -> Void
+    let onSave: (String, String, Date) -> Void
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
     @State private var frequency: HabitFrequency = .daily
+    @State private var expTime = Date()
 
     enum HabitFrequency: String, CaseIterable, Identifiable {
         case daily = "Daily"
@@ -24,6 +25,11 @@ struct HabitEditorSheet: View {
                     }
                 }
                 .pickerStyle(.segmented)
+                DatePicker(
+                    "End Time",
+                    selection: $expTime,
+                    displayedComponents: .hourAndMinute
+                )
             }
             .navigationTitle("Create Habit")
             .toolbar {
@@ -32,7 +38,7 @@ struct HabitEditorSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        onSave(title, frequency.rawValue)
+                        onSave(title, frequency.rawValue, expTime)
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)

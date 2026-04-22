@@ -47,6 +47,11 @@ struct ProfileScreen: View {
             .refreshable {
                 viewModel.refresh()
             }
+            .overlay {
+                if viewModel.isLoading {
+                    LoadingOverlayView("Updating profile...")
+                }
+            }
         }
         .onAppear {
             viewModel.refresh()

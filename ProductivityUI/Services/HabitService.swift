@@ -47,7 +47,8 @@ final class SupabaseHabitService: HabitServiceProtocol {
             id: habit.id.uuidString,
             user_id: userID,
             title: habit.title,
-            duration: habit.detail
+            duration: habit.detail,
+            exp_time: habit.expTime
         )
     }
 

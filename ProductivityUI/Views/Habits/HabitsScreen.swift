@@ -49,13 +49,18 @@ struct HabitsScreen: View {
                 .padding()
             }
             .navigationTitle("Habits")
+            .overlay {
+                if viewModel.isLoading {
+                    LoadingOverlayView("Updating habits...")
+                }
+            }
         }
         .refreshable {
             viewModel.refresh()
         }
         .sheet(isPresented: $showCreate) {
-            HabitEditorSheet { title, detail in
-                viewModel.addHabit(title: title, detail: detail)
+            HabitEditorSheet { title, detail, expTime in
+                viewModel.addHabit(title: title, detail: detail, expTime: expTime)
             }
         }
     }

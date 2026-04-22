@@ -3,6 +3,7 @@ import UserNotifications
 
 protocol NotificationServiceProtocol {
     func fetchNotifications() -> [AppNotificationItem]
+    func recordNotification(_ notification: AppNotificationItem)
     func syncReminderNotifications(from tasks: [TaskItem])
     func markAsViewed(id: UUID)
     func markAllAsViewed()
@@ -25,6 +26,11 @@ final class InMemoryNotificationService: NotificationServiceProtocol {
 
     func fetchNotifications() -> [AppNotificationItem] {
         notifications.sorted(by: { $0.createdAt > $1.createdAt })
+    }
+
+    func recordNotification(_ notification: AppNotificationItem) {
+        guard notifications.contains(where: { $0.id == notification.id }) == false else { return }
+        notifications.append(notification)
     }
 
     func syncReminderNotifications(from tasks: [TaskItem]) {
