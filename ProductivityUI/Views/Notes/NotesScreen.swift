@@ -57,11 +57,6 @@ struct NotesScreen: View {
         .refreshable {
             viewModel.refresh()
         }
-        .onChange(of: externalEditingNote) { newValue in
-            guard let newValue else { return }
-            editingNote = newValue
-            externalEditingNote = nil
-        }
         .sheet(isPresented: $showCreate) {
             NoteEditorSheet(mode: .create) { title, body in
                 viewModel.addNote(title: title, body: body)

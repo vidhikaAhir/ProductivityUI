@@ -66,11 +66,6 @@ struct TasksScreen: View {
         .refreshable {
             viewModel.refresh()
         }
-        .onChange(of: externalEditingTask) { newValue in
-            guard let newValue else { return }
-            editingTask = newValue
-            externalEditingTask = nil
-        }
         .sheet(isPresented: $showCreate) {
             TaskEditorSheet(mode: .create) { title, detail, dueDate, reminder, priority in
                 viewModel.addTask(title: title, detail: detail, dueDate: dueDate, hasReminder: reminder, priority: priority)
