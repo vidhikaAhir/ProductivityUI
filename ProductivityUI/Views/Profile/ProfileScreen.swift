@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProfileScreen: View {
     @StateObject private var viewModel: ProfileViewModel
-    @State private var showChangePasswordInfo = false
+    @State private var showingLogoutConfirmation = false
 
     init(viewModel: ProfileViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -13,9 +13,8 @@ struct ProfileScreen: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     HStack(spacing: 12) {
-                        Image(systemName: "person.crop.circle.fill")
-                            .font(.system(size: 52))
-                            .foregroundColor(AppTheme.accent)
+                        profileAvatar
+                            .frame(width: 52, height: 52)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(viewModel.profile?.username ?? "Your profile")
@@ -39,6 +38,18 @@ struct ProfileScreen: View {
                         }
                     }
                     .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.card))
+
+                    Button(role: .destructive) {
+                        showingLogoutConfirmation = true
+                    } label: {
+                        Text("Log Out")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .foregroundColor(.white)
+                            .background(RoundedRectangle(cornerRadius: 14).fill(Color.red))
+                    }
+                    .padding(.top, 6)
                 }
                 .padding()
             }
@@ -56,6 +67,47 @@ struct ProfileScreen: View {
         .onAppear {
             viewModel.refresh()
         }
+        .confirmationDialog(
+            "Are you sure you want to log out?",
+            isPresented: $showingLogoutConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Log Out", role: .destructive) {
+                AppSession.shared.clearUserID()
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+    }
+
+    private var profileAvatar: some View {
+        Group {
+            if let imageURL = viewModel.profile?.avatarImageURL {
+                AsyncImage(url: imageURL) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                            .frame(width: 52, height: 52)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(Circle())
+                    case .failure:
+                        fallbackAvatar
+                    @unknown default:
+                        fallbackAvatar
+                    }
+                }
+            } else {
+                fallbackAvatar
+            }
+        }
+    }
+
+    private var fallbackAvatar: some View {
+        Image(systemName: "person.crop.circle.fill")
+            .font(.system(size: 52))
+            .foregroundColor(AppTheme.accent)
     }
 
     private func profileRow(icon: String, title: String, value: String) -> some View {

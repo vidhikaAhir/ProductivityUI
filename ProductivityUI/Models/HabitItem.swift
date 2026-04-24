@@ -70,6 +70,43 @@ struct HabitItem: Identifiable, Equatable, Codable {
     }
 }
 
+extension HabitItem {
+    var frequency: HabitFrequency {
+        HabitFrequency(storedValue: detail)
+    }
+
+    func occurs(on date: Date, calendar: Calendar = .current) -> Bool {
+        let startDate = calendar.startOfDay(for: createdAt)
+        let targetDate = calendar.startOfDay(for: date)
+
+        guard targetDate >= startDate else {
+            return false
+        }
+
+        switch frequency {
+        case .daily:
+            return true
+        case .weekly:
+            let dayDifference = calendar.dateComponents([.day], from: startDate, to: targetDate).day ?? 0
+            return dayDifference % 7 == 0
+        case .monthly:
+            guard let monthDifference = calendar.dateComponents([.month], from: startDate, to: targetDate).month,
+                  let recurrenceDate = calendar.date(byAdding: .month, value: monthDifference, to: startDate) else {
+                return false
+            }
+            return calendar.isDate(recurrenceDate, inSameDayAs: targetDate)
+        }
+    }
+
+    func calendarSubtitle(for date: Date) -> String {
+        var subtitle = "\(frequency.displayName) habit"
+        if isCompleted(on: date) {
+            subtitle += " · Completed"
+        }
+        return subtitle
+    }
+}
+
 struct DateKey: Hashable, Sendable, Codable {
     let year: Int
     let month: Int

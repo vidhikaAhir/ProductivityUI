@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct ProductivityUIApp: App {
     @StateObject private var appContainer = AppContainer()
+    @StateObject private var appSession = AppSession.shared
 
     var body: some Scene {
         WindowGroup {
-            RootTabView()
+            AppGateView()
                 .environmentObject(appContainer)
+                .environmentObject(appSession)
                 .task {
                     NotificationManager.shared.requestPermission()
                 }

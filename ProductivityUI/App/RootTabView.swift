@@ -9,14 +9,14 @@ struct RootTabView: View {
     @StateObject private var habitsViewModel: HabitsViewModel
     @StateObject private var profileViewModel: ProfileViewModel
     @State private var selectedTab: AppTab = .calendar
-    @State private var spotlightFrames: [SpotlightFrameTarget: CGRect] = [:]
+    @State private var spotlightFrames: [OnboardingTarget: CGRect] = [:]
 
     init() {
         let taskService = SupabaseTaskService()
         let noteService = SupabaseNoteService()
         let habitService = SupabaseHabitService()
         let profileService = SupabaseProfileService()
-        let notificationService = InMemoryNotificationService()
+        let notificationService = InMemoryNotificationService.shared
         let calendarVM = CalendarViewModel(
             taskService: taskService,
             noteService: noteService,
@@ -78,8 +78,18 @@ struct RootTabView: View {
                         .tag(AppTab.profile)
                 }
                 .onPreferenceChange(SpotlightFramePreferenceKey.self) { value in
-                    spotlightFrames = value
+                    if spotlightFrames != value {
+                        spotlightFrames = value
+                    }
                 }
+                .background(
+                    TabBarFrameReader { frames in
+                        if spotlightFrames != frames {
+                            spotlightFrames = frames
+                        }
+                    }
+                    .allowsHitTesting(false)
+                )
 
                 if let step = onboardingViewModel.currentStep, onboardingViewModel.isVisible {
                     SpotlightView(
@@ -120,6 +130,10 @@ struct RootTabView: View {
     }
 
     private func spotlightRect(for target: OnboardingTarget, in proxy: GeometryProxy) -> CGRect {
+        if let frame = spotlightFrames[target] {
+            return frame
+        }
+
         let safeBottom = proxy.safeAreaInsets.bottom
         let tabBarHeight: CGFloat = 49 + safeBottom
         let tabBarTop = proxy.size.height - tabBarHeight
@@ -142,9 +156,6 @@ struct RootTabView: View {
         case .profileTab:
             return tabRect(for: .profile)
         case .addButton:
-            if let frame = spotlightFrames[.addButton] {
-                return frame
-            }
             return CGRect(
                 x: proxy.size.width - 92,
                 y: proxy.size.height - tabBarHeight - 94,

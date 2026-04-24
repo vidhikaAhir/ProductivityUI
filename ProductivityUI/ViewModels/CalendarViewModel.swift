@@ -48,12 +48,18 @@ final class CalendarViewModel: ObservableObject {
             CalendarFeedItem(id: UUID(), date: $0.dueDate ?? selectedDate, title: "Reminder: \($0.title)", subtitle: "Notification", type: .reminder($0))
         }
 
-        let dayNotes = notes.prefix(2).map {
-            CalendarFeedItem(id: $0.id, date: $0.updatedAt, title: $0.title, subtitle: "Note", type: .note($0))
+        let dayNotes = notesForSelectedDate().map {
+            CalendarFeedItem(id: $0.id, date: $0.createdAt, title: $0.title, subtitle: "Note", type: .note($0))
         }
 
-        let dayHabits = habits.filter { $0.isCompleted(on: selectedDate) }.map {
-            CalendarFeedItem(id: $0.id, date: selectedDate, title: $0.title, subtitle: "Habit completed", type: .habit($0))
+        let dayHabits = habits.filter { $0.occurs(on: selectedDate, calendar: calendar) }.map {
+            CalendarFeedItem(
+                id: $0.id,
+                date: selectedDate,
+                title: $0.title,
+                subtitle: $0.calendarSubtitle(for: selectedDate),
+                type: .habit($0)
+            )
         }
 
         return (dayTasks + reminders + dayNotes + dayHabits).sorted(by: { $0.date < $1.date })
@@ -126,11 +132,18 @@ final class CalendarViewModel: ObservableObject {
     }
 
     func noteDots(on date: Date) -> [CalendarFeedType] {
-        notes.filter { calendar.isDate($0.updatedAt, inSameDayAs: date) }.map { .note($0) }
+        notes.filter { calendar.isDate($0.createdAt, inSameDayAs: date) }.map { .note($0) }
     }
 
     func habitDots(on date: Date) -> [CalendarFeedType] {
-        habits.filter { $0.isCompleted(on: date) }.map { .habit($0) }
+        habits.filter { $0.occurs(on: date, calendar: calendar) }.map { .habit($0) }
+    }
+
+    private func notesForSelectedDate() -> [NoteItem] {
+        notes.filter { calendar.isDate($0.createdAt, inSameDayAs: selectedDate) }
+            .sorted { $0.createdAt < $1.createdAt }
+            .prefix(2)
+            .map { $0 }
     }
 }
 

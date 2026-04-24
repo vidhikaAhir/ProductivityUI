@@ -6,11 +6,56 @@
 //
 import Supabase
 import Foundation
+import UIKit
 let supabaseQuery = SupabaseManager.shared.client
 
 final class UserRowData {
     static let shared = UserRowData()
-    private init(){}
+    private init() {}
+
+    func uploadImage(_ image: UIImage) async throws -> String {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            throw NSError(domain: "ImageError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unable to encode image"])
+        }
+
+        let fileName = "\(UUID().uuidString).jpg"
+        let path = "uploads/\(fileName)"
+
+        try await supabaseQuery.storage
+            .from("images")
+            .upload(path, data: imageData, options: FileOptions(contentType: "image/jpeg"))
+
+        let publicURL = try supabaseQuery.storage
+            .from("images")
+            .getPublicURL(path: path)
+
+        return publicURL.absoluteString
+    }
+
+    func addUser(id: String, username: String, email: String, phone: String, imageURL: String) async throws -> String {
+        do {
+            try await supabaseQuery
+                .from("USERS")
+                .insert(
+                    NewUser(
+                        id: id,
+                        username: username,
+                        email: email,
+                        phone: phone,
+                        created_at: Date(),
+                        image: imageURL
+                    )
+                )
+                .execute()
+
+            print("Insert success")
+            return id
+        } catch {
+            print("Insert failed:", error)
+            throw error
+        }
+    }
+
     func updateUser(id:String,username:String) async throws {
         do {
             try await supabaseQuery
@@ -37,7 +82,7 @@ final class UserRowData {
                 .execute()
                 .value
 
-            print("User:", user)
+            print("User fetched:", user.id)
             return user
         } catch {
             print("Fetch failed:", error)
@@ -55,7 +100,7 @@ final class UserRowData {
                 .single()
                 .execute()
                 .value
-            print("Latest user:", user)
+            print("Latest user fetched:", user.id)
             return user
         } catch {
             print("Fetch failed:", error)
@@ -64,19 +109,19 @@ final class UserRowData {
     }
 
     func activeUserID() async throws -> String {
-        if let currentUserID = SupabaseManager.shared.client.auth.currentUser?.id.uuidString {
+        if let currentUserID = AppSession.shared.currentUserID {
             return currentUserID
         }
 
-        return try await fetchLatestUser().id
+        throw AppSessionError.missingUserSession
     }
 
     func activeUser() async throws -> UserRow {
-        if let currentUserID = SupabaseManager.shared.client.auth.currentUser?.id.uuidString {
+        if let currentUserID = AppSession.shared.currentUserID {
             return try await fetchSingleUser(id: currentUserID)
         }
 
-        return try await fetchLatestUser()
+        throw AppSessionError.missingUserSession
     }
 
 

@@ -7,21 +7,13 @@ struct HabitEditorSheet: View {
     @State private var frequency: HabitFrequency = .daily
     @State private var expTime = Date()
 
-    enum HabitFrequency: String, CaseIterable, Identifiable {
-        case daily = "Daily"
-        case weekly = "Weekly"
-        case monthly = "Monthly"
-
-        var id: String { rawValue }
-    }
-
     var body: some View {
         NavigationView {
             Form {
                 TextField("Habit name", text: $title)
                 Picker("Frequency", selection: $frequency) {
                     ForEach(HabitFrequency.allCases) { option in
-                        Text(option.rawValue).tag(option)
+                        Text(option.displayName).tag(option)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -38,7 +30,7 @@ struct HabitEditorSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        onSave(title, frequency.rawValue, expTime)
+                        onSave(title, frequency.displayName, expTime)
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)

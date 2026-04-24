@@ -1,6 +1,6 @@
 import Foundation
 
-struct AppNotificationItem: Identifiable, Equatable {
+struct AppNotificationItem: Identifiable, Equatable, Codable {
     let id: UUID
     let relatedTaskID: UUID?
     var title: String

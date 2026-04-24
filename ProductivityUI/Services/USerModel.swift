@@ -11,4 +11,19 @@ struct UserRow: Decodable {
     let email: String?
     let phone: String?
     let created_at: Date
+    let image: String?
+
+    var avatarImageURL: URL? {
+        guard let image else { return nil }
+        return URL(string: image)
+    }
+}
+
+struct NewUser: Encodable {
+    let id: String
+    let username: String
+    let email: String
+    let phone: String
+    let created_at: Date
+    let image: String
 }

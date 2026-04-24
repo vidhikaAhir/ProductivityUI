@@ -13,7 +13,7 @@ final class AppContainer: ObservableObject {
         noteService: NoteServiceProtocol = SupabaseNoteService(),
         habitService: HabitServiceProtocol = SupabaseHabitService(),
         profileService: ProfileServiceProtocol = SupabaseProfileService(),
-        notificationService: NotificationServiceProtocol = InMemoryNotificationService()
+        notificationService: NotificationServiceProtocol = InMemoryNotificationService.shared
     ) {
         self.taskService = taskService
         self.noteService = noteService
