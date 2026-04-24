@@ -13,6 +13,7 @@ struct LoginScreen: View {
     @State private var selectedUIImage: UIImage? = nil
     @State private var selectedItem: PhotosPickerItem? = nil
     @StateObject private var viewModel = LoginViewModel()
+    @FocusState private var focusedField: LoginField?
 
     var body: some View {
         NavigationStack {
@@ -40,7 +41,7 @@ struct LoginScreen: View {
     }
 
     private var isFormValid: Bool {
-        hasContent(username) && hasContent(email) && hasContent(phone) && image != nil
+        hasContent(username) && isValidEmail(email) && isValidPhone(phone) && image != nil
     }
 
     private var loginCard: some View {
@@ -50,9 +51,36 @@ struct LoginScreen: View {
                     .padding(.bottom, 8)
                     .onChange(of: selectedItem, perform: loadSelectedImage)
 
-                StyledTextField(title: "Username", text: $username, systemImage: "person")
-                StyledTextField(title: "Email address", text: $email, keyboard: .emailAddress, systemImage: "envelope")
-                StyledTextField(title: "Phone number", text: $phone, keyboard: .phonePad, systemImage: "phone")
+                StyledTextField(
+                    title: "Username",
+                    text: $username,
+                    systemImage: "person",
+                    submitLabel: .next,
+                    focusedField: $focusedField,
+                    field: .username
+                )
+                StyledTextField(
+                    title: "Email address",
+                    text: $email,
+                    keyboard: .emailAddress,
+                    systemImage: "envelope",
+                    submitLabel: .next,
+                    focusedField: $focusedField,
+                    field: .email,
+                    contentType: .emailAddress,
+                    validationMessage: emailValidationMessage
+                )
+                StyledTextField(
+                    title: "Phone number",
+                    text: $phone,
+                    keyboard: .numberPad,
+                    systemImage: "phone",
+                    submitLabel: .done,
+                    focusedField: $focusedField,
+                    field: .phone,
+                    contentType: .telephoneNumber,
+                    validationMessage: phoneValidationMessage
+                )
 
                 submitButton
             }
@@ -88,8 +116,20 @@ struct LoginScreen: View {
 
     private func submit() {
         guard let img = selectedUIImage else { return }
+        let normalizedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalizedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalizedPhone = phone.filter(\.isNumber)
+
+        guard isValidEmail(normalizedEmail) else {
+            viewModel.errorMessage = "Please enter a valid email address."
+            return
+        }
+        guard isValidPhone(normalizedPhone) else {
+            viewModel.errorMessage = "Please enter a valid mobile number."
+            return
+        }
         Task {
-            await viewModel.createUser(username: username, email: email, phone: phone, image: img)
+            await viewModel.createUser(username: normalizedUsername, email: normalizedEmail, phone: normalizedPhone, image: img)
         }
     }
 
@@ -108,6 +148,34 @@ struct LoginScreen: View {
     private func hasContent(_ value: String) -> Bool {
         !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
+
+    private var emailValidationMessage: String? {
+        guard hasContent(email) else { return nil }
+        return isValidEmail(email) ? nil : "Enter a valid email address."
+    }
+
+    private var phoneValidationMessage: String? {
+        guard hasContent(phone) else { return nil }
+        return isValidPhone(phone) ? nil : "Enter a valid mobile number."
+    }
+
+    private func isValidEmail(_ value: String) -> Bool {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.isEmpty == false else { return false }
+        let pattern = #"^[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\.[A-Za-z]{2,}$"#
+        return trimmed.range(of: pattern, options: .regularExpression) != nil
+    }
+
+    private func isValidPhone(_ value: String) -> Bool {
+        let digits = value.filter(\.isNumber)
+        return digits.count == 10
+    }
+}
+
+fileprivate enum LoginField {
+    case username
+    case email
+    case phone
 }
 
 // MARK: - Components
@@ -205,6 +273,11 @@ private struct StyledTextField: View {
     @Binding var text: String
     var keyboard: UIKeyboardType = .default
     var systemImage: String? = nil
+    var submitLabel: SubmitLabel = .done
+    var focusedField: FocusState<LoginField?>.Binding? = nil
+    var field: LoginField? = nil
+    var contentType: UITextContentType? = nil
+    var validationMessage: String? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -216,10 +289,32 @@ private struct StyledTextField: View {
                     Image(systemName: systemImage)
                         .foregroundStyle(.primary)
                 }
-                TextField("", text: $text)
-                    .keyboardType(keyboard)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
+                if let focusedField, let field {
+                    TextField("", text: $text)
+                        .keyboardType(keyboard)
+                        .submitLabel(submitLabel)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .textContentType(contentType)
+                        .focused(focusedField, equals: field)
+                        .onChange(of: text) { newValue in
+                            if keyboard == .numberPad {
+                                text = String(newValue.filter(\.isNumber).prefix(10))
+                            }
+                        }
+                } else {
+                    TextField("", text: $text)
+                        .keyboardType(keyboard)
+                        .submitLabel(submitLabel)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .textContentType(contentType)
+                        .onChange(of: text) { newValue in
+                            if keyboard == .numberPad {
+                                text = String(newValue.filter(\.isNumber).prefix(10))
+                            }
+                        }
+                }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 12)
@@ -231,6 +326,12 @@ private struct StyledTextField: View {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .strokeBorder(Color.black.opacity(0.06))
             )
+
+            if let validationMessage {
+                Text(validationMessage)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
         }
     }
 }

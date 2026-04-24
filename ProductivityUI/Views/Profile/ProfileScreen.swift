@@ -19,7 +19,7 @@ struct ProfileScreen: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(viewModel.profile?.username ?? "Your profile")
                                 .font(.title3.bold())
-                            Text(viewModel.profile?.email ?? "Loading from Supabase...")
+                            Text(viewModel.profile?.email ?? "Loading...")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -67,15 +67,13 @@ struct ProfileScreen: View {
         .onAppear {
             viewModel.refresh()
         }
-        .confirmationDialog(
-            "Are you sure you want to log out?",
-            isPresented: $showingLogoutConfirmation,
-            titleVisibility: .visible
-        ) {
+        .alert("Log Out", isPresented: $showingLogoutConfirmation) {
             Button("Log Out", role: .destructive) {
                 AppSession.shared.clearUserID()
             }
             Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("You'll need to sign in again to access your workspace.")
         }
     }
 

@@ -43,7 +43,7 @@ final class CalendarViewModel: ObservableObject {
 
         let reminders = tasks.filter {
             guard let dueDate = $0.dueDate else { return false }
-            return $0.hasReminder && calendar.isDate(dueDate, inSameDayAs: selectedDate)
+            return $0.hasReminder && !$0.isCompleted && calendar.isDate(dueDate, inSameDayAs: selectedDate)
         }.map {
             CalendarFeedItem(id: UUID(), date: $0.dueDate ?? selectedDate, title: "Reminder: \($0.title)", subtitle: "Notification", type: .reminder($0))
         }

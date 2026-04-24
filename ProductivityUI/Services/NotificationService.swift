@@ -38,27 +38,53 @@ final class InMemoryNotificationService: NotificationServiceProtocol {
     }
 
     func recordNotification(_ notification: AppNotificationItem) {
-        guard notifications.contains(where: { $0.id == notification.id }) == false else { return }
-        notifications.append(notification)
+        if let index = notifications.firstIndex(where: { $0.id == notification.id }) {
+            notifications[index] = notification
+        } else {
+            notifications.append(notification)
+        }
         saveState()
     }
 
     func syncReminderNotifications(from tasks: [TaskItem]) {
-        for task in tasks where task.hasReminder {
-            guard scheduledTaskIDs.contains(task.id) == false else { continue }
+        let reminderTasks = tasks.compactMap { task -> (task: TaskItem, fireDate: Date)? in
+            guard task.hasReminder, task.isCompleted == false, let dueDate = task.dueDate else { return nil }
+            let now = Date()
+            let oneHourBefore = dueDate.addingTimeInterval(-3600)
+            let fireDate: Date?
+            if oneHourBefore > now {
+                fireDate = oneHourBefore
+            } else if dueDate > now {
+                fireDate = now.addingTimeInterval(1)
+            } else {
+                fireDate = nil
+            }
+            guard let fireDate else { return nil }
+            return (task, fireDate)
+        }
 
+        let desiredTaskIDs = Set(reminderTasks.map(\.task.id))
+        let staleTaskIDs = scheduledTaskIDs.subtracting(desiredTaskIDs)
+
+        if staleTaskIDs.isEmpty == false {
+            removeNotifications(forTaskIDs: staleTaskIDs)
+        }
+
+        for item in reminderTasks {
             let notification = AppNotificationItem(
-                relatedTaskID: task.id,
-                title: "Task Reminder",
-                message: task.title,
-                createdAt: task.dueDate ?? Date(),
+                id: item.task.id,
+                relatedTaskID: item.task.id,
+                title: "Reminder",
+                message: "Only one hour left. Hurry! Complete: \(item.task.title)",
+                createdAt: item.fireDate,
                 isViewed: false
             )
-            notifications.append(notification)
-            scheduledTaskIDs.insert(task.id)
+            upsert(notification)
             scheduleLocalNotification(for: notification)
-            saveState()
         }
+
+        scheduledTaskIDs = desiredTaskIDs
+        saveState()
     }
 
     func markAsViewed(id: UUID) {
@@ -86,12 +112,35 @@ final class InMemoryNotificationService: NotificationServiceProtocol {
 
         let secondsUntilFire = max(notification.createdAt.timeIntervalSinceNow, 1)
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: secondsUntilFire, repeats: false)
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.id.uuidString])
         let request = UNNotificationRequest(
             identifier: notification.id.uuidString,
             content: content,
             trigger: trigger
         )
         UNUserNotificationCenter.current().add(request)
+    }
+
+    private func upsert(_ notification: AppNotificationItem) {
+        if let index = notifications.firstIndex(where: { $0.id == notification.id }) {
+            let isViewed = notifications[index].isViewed
+            notifications[index] = AppNotificationItem(
+                id: notification.id,
+                relatedTaskID: notification.relatedTaskID,
+                title: notification.title,
+                message: notification.message,
+                createdAt: notification.createdAt,
+                isViewed: isViewed
+            )
+        } else {
+            notifications.append(notification)
+        }
+    }
+
+    private func removeNotifications(forTaskIDs taskIDs: Set<UUID>) {
+        scheduledTaskIDs.subtract(taskIDs)
+        let identifiers = taskIDs.map(\.uuidString)
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 
     private func saveState() {

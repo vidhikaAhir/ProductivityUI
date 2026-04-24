@@ -72,7 +72,7 @@ struct HabitsScreen: View {
                 .foregroundColor(AppTheme.habit)
             Text("No habits yet")
                 .font(.headline)
-            Text("Add a habit and track streaks from Supabase logs.")
+            Text("Add a habit and track streaks.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

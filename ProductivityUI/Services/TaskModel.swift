@@ -19,7 +19,7 @@ struct TaskModel: Decodable {
     let created_at: String?
 
     var dueDateValue: Date? {
-        SupabaseDateTransform.parseDate(due_date)
+        SupabaseDateTransform.combineDate(due_date: due_date, due_time: due_time)
     }
 
     var priorityValue: TaskPriority {

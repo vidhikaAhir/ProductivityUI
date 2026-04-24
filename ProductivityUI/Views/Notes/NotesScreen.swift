@@ -76,7 +76,7 @@ struct NotesScreen: View {
                 .foregroundColor(AppTheme.note)
             Text("No notes yet")
                 .font(.headline)
-            Text("Create a note to load it from Supabase.")
+            Text("Create a note to load it.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

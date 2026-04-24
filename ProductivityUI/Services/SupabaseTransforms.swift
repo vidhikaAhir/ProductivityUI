@@ -51,6 +51,36 @@ enum SupabaseDateTransform {
         return nil
     }
 
+    static func combineDate(due_date: String?, due_time: String?) -> Date? {
+        guard let dueDateString = due_date,
+              let day = dateOnlyFormatter.date(from: dueDateString) else {
+            return nil
+        }
+
+        guard let dueTimeString = due_time, dueTimeString.isEmpty == false else {
+            return day
+        }
+
+        let timeParser = DateFormatter()
+        timeParser.calendar = Calendar(identifier: .gregorian)
+        timeParser.locale = Locale(identifier: "en_US_POSIX")
+        timeParser.timeZone = TimeZone.current
+        timeParser.dateFormat = dueTimeString.count == 5 ? "HH:mm" : "HH:mm:ss"
+
+        guard let parsedTime = timeParser.date(from: dueTimeString) else {
+            return day
+        }
+
+        let calendar = Calendar.current
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: parsedTime)
+        return calendar.date(
+            bySettingHour: timeComponents.hour ?? 0,
+            minute: timeComponents.minute ?? 0,
+            second: timeComponents.second ?? 0,
+            of: day
+        ) ?? day
+    }
+
     static func dateString(from date: Date?) -> String? {
         guard let date else { return nil }
         return dateOnlyFormatter.string(from: date)

@@ -91,7 +91,7 @@ struct TasksScreen: View {
                 .foregroundColor(AppTheme.accent)
             Text("No tasks yet")
                 .font(.headline)
-            Text("Create a task to start pulling data from Supabase.")
+            Text("Create a task and track it here.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

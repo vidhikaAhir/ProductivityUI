@@ -23,7 +23,15 @@ struct RootTabView: View {
             habitService: habitService,
             notificationService: notificationService
         )
-        let tasksVM = TasksViewModel(taskService: taskService)
+        let tasksVM = TasksViewModel(
+            taskService: taskService,
+            notificationService: notificationService,
+            onNotificationChanged: {
+                Task { @MainActor in
+                    calendarVM.refresh()
+                }
+            }
+        )
         let notesVM = NotesViewModel(noteService: noteService)
         let habitsVM = HabitsViewModel(
             habitService: habitService,
