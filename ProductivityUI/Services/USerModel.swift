@@ -10,6 +10,7 @@ struct UserRow: Decodable {
     let username: String?
     let email: String?
     let phone: String?
+    let password: String?
     let created_at: Date
     let image: String?
 
@@ -24,6 +25,7 @@ struct NewUser: Encodable {
     let username: String
     let email: String
     let phone: String
+    let password: String
     let created_at: Date
     let image: String
 }

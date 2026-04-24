@@ -32,7 +32,7 @@ final class UserRowData {
         return publicURL.absoluteString
     }
 
-    func addUser(id: String, username: String, email: String, phone: String, imageURL: String) async throws -> String {
+    func addUser(id: String, username: String, email: String, phone: String, password: String, imageURL: String) async throws -> String {
         do {
             try await supabaseQuery
                 .from("USERS")
@@ -42,6 +42,7 @@ final class UserRowData {
                         username: username,
                         email: email,
                         phone: phone,
+                        password: password,
                         created_at: Date(),
                         image: imageURL
                     )
@@ -72,6 +73,25 @@ final class UserRowData {
             throw error
         }
     }
+    func fetchSingleUser(id:String, password: String) async throws -> UserRow {
+        do {
+            let user: UserRow = try await supabaseQuery
+                .from("USERS")
+                .select()
+                .eq("id", value: id)
+                .eq("password", value: password)
+                .single()
+                .execute()
+                .value
+
+            print("User fetched:", user.id)
+            return user
+        } catch {
+            print("Fetch failed:", error)
+            throw error
+        }
+    }
+
     func fetchSingleUser(id:String) async throws -> UserRow {
         do {
             let user: UserRow = try await supabaseQuery
