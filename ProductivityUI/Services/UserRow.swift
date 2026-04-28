@@ -129,7 +129,7 @@ final class UserRowData {
     }
 
     func activeUserID() async throws -> String {
-        if let currentUserID = AppSession.shared.currentUserID {
+        if let currentUserID = await AppSession.shared.currentUserID {
             return currentUserID
         }
 
@@ -137,7 +137,7 @@ final class UserRowData {
     }
 
     func activeUser() async throws -> UserRow {
-        if let currentUserID = AppSession.shared.currentUserID {
+        if let currentUserID = await AppSession.shared.currentUserID {
             return try await fetchSingleUser(id: currentUserID)
         }
 
